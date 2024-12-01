@@ -7,8 +7,21 @@ import 'package:collab/presentation/cubits/tasks/tasks_cubit.dart';
 import 'package:collab/presentation/widgets/project/project_form.dart';
 import 'package:collab/presentation/blocs/auth/auth_bloc.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  @override
+  void initState() {
+    super.initState();
+    // Load projects and tasks when HomeView is initialized
+    context.read<ProjectsCubit>().loadProjects();
+    context.read<TasksCubit>().loadTasks();
+  }
 
   void _showCreateProjectDialog(BuildContext context) {
     showDialog(
