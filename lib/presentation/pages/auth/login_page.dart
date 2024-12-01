@@ -77,7 +77,14 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                       ),
                     );
                   },
-                  (_) => null, // Navigation handled by AuthBloc
+                  (_) {
+                    // Navigate to home page on successful sign in
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      AppRoutes.home,
+                      (route) => false,
+                    );
+                  },
                 ),
               );
             },

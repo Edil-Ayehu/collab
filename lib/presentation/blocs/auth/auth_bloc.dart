@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -14,40 +13,31 @@ part 'auth_bloc.freezed.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetAuthState _getAuthState;
   final SignOut _signOut;
-  StreamSubscription<UserModel?>? _authStateSubscription;
 
   AuthBloc(
     this._getAuthState,
     this._signOut,
   ) : super(const AuthState.initial()) {
     on<AuthEvent>((event, emit) async {
-      await event.when(
-        started: () async {
+      await event.map(
+        started: (_) async {
           emit(const AuthState.loading());
-          _authStateSubscription?.cancel();
-          _authStateSubscription = _getAuthState().listen(
-            (user) => add(AuthEvent.authStateChanged(user)),
+          await _getAuthState().first.then(
+            (userOption) => userOption != null
+                ? emit(AuthState.authenticated(user: userOption))
+                : emit(const AuthState.unauthenticated()),
           );
         },
-        authStateChanged: (user) async {
-          if (user != null) {
-            emit(AuthState.authenticated(user: user));
-          } else {
-            emit(const AuthState.unauthenticated());
-          }
+        authStateChanged: (e) async {
+          e.user != null
+              ? emit(AuthState.authenticated(user: e.user!))
+              : emit(const AuthState.unauthenticated());
         },
-        signedOut: () async {
-          emit(const AuthState.loading());
+        signedOut: (_) async {
           await _signOut();
           emit(const AuthState.unauthenticated());
         },
       );
     });
-  }
-
-  @override
-  Future<void> close() {
-    _authStateSubscription?.cancel();
-    return super.close();
   }
 } 

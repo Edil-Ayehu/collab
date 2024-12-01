@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:collab/presentation/blocs/auth/auth_bloc.dart';
+import 'package:collab/config/routes/app_routes.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -75,7 +78,38 @@ class SettingsView extends StatelessWidget {
               title: 'Sign Out',
               textColor: Colors.red,
               onTap: () {
-                // TODO: Implement sign out
+                // Show confirmation dialog
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Sign Out'),
+                    content: const Text('Are you sure you want to sign out?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Cancel'),
+                      ),
+                      FilledButton(
+                        onPressed: () {
+                          // Close dialog
+                          Navigator.pop(context);
+                          // Dispatch sign out event
+                          context.read<AuthBloc>().add(const AuthEvent.signedOut());
+                          // Navigate to login page
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            AppRoutes.login,
+                            (route) => false,
+                          );
+                        },
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                        ),
+                        child: const Text('Sign Out'),
+                      ),
+                    ],
+                  ),
+                );
               },
             ),
           ],
