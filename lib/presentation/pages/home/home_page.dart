@@ -6,6 +6,7 @@ import 'package:collab/presentation/pages/home/views/home_view.dart';
 import 'package:collab/presentation/pages/home/views/tasks_view.dart';
 import 'package:collab/presentation/pages/home/views/projects_view.dart';
 import 'package:collab/presentation/pages/home/views/settings_view.dart';
+import 'package:collab/config/routes/app_routes.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -34,7 +35,7 @@ class HomePage extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.person_outline),
                   onPressed: () {
-                    // TODO: Navigate to profile
+                    Navigator.pushNamed(context, AppRoutes.profile);
                   },
                 ),
               ],

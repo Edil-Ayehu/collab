@@ -19,7 +19,7 @@ class SettingsView extends StatelessWidget {
               icon: Icons.person_outline,
               title: 'Profile',
               onTap: () {
-                // TODO: Navigate to profile
+                Navigator.pushNamed(context, AppRoutes.profile);
               },
             ),
             _buildSettingTile(
@@ -94,7 +94,9 @@ class SettingsView extends StatelessWidget {
                           // Close dialog
                           Navigator.pop(context);
                           // Dispatch sign out event
-                          context.read<AuthBloc>().add(const AuthEvent.signedOut());
+                          context
+                              .read<AuthBloc>()
+                              .add(const AuthEvent.signedOut());
                           // Navigate to login page
                           Navigator.pushNamedAndRemoveUntil(
                             context,
@@ -164,4 +166,4 @@ class SettingsView extends StatelessWidget {
       onTap: onTap,
     );
   }
-} 
+}

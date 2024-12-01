@@ -5,6 +5,7 @@ import 'package:collab/presentation/pages/auth/login_page.dart';
 import 'package:collab/presentation/pages/auth/sign_up_page.dart';
 import 'package:collab/presentation/pages/home/home_page.dart';
 import 'package:collab/presentation/pages/splash/splash_page.dart';
+import 'package:collab/presentation/pages/profile/profile_page.dart';
 
 class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -17,6 +18,8 @@ class AppRouter {
         return SlidePageRoute(child: const SignUpPage());
       case AppRoutes.home:
         return FadePageRoute(child: const HomePage());
+      case AppRoutes.profile:
+        return SlidePageRoute(child: const ProfilePage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
