@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:collab/config/routes/app_routes.dart';
 import 'package:collab/config/themes/app_theme.dart';
 import 'package:collab/presentation/blocs/auth/auth_bloc.dart';
+import 'package:collab/presentation/cubits/projects/projects_cubit.dart';
+import 'package:collab/presentation/cubits/tasks/tasks_cubit.dart';
 import 'package:collab/core/di/injection.dart';
 
 class App extends StatelessWidget {
@@ -22,7 +24,12 @@ class App extends StatelessWidget {
             BlocProvider(
               create: (context) => getIt<AuthBloc>(),
             ),
-            // Add other blocs here
+            BlocProvider(
+              create: (context) => getIt<ProjectsCubit>(),
+            ),
+            BlocProvider(
+              create: (context) => getIt<TasksCubit>(),
+            ),
           ],
           child: MaterialApp(
             title: 'Collab',
